@@ -11,7 +11,7 @@ npm i -S feature-change
 
 ## Usage
 Let's assume you currently perform searches against mongodb and to improve upon this you want searches to be done in Elastic Search.
-```
+```js
 var feature_change = require('feature-change');
 
 var current_implementation = mongo_search;
