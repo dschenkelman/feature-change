@@ -9,7 +9,8 @@
   "author": "Damian Schenkelman",
   "license": "MIT",
   "dependencies": {
-    "deep-equal": "^1.0.1"
+    "deep-equal": "^1.0.1",
+    "immediate-invocation": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.2.0",

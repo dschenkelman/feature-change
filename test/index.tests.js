@@ -218,6 +218,114 @@ describe('feature change', function(){
         expect(result.success).to.be.true;
       });
     });
+  });
 
+  describe('validations', function () {
+  
+    [
+      null,
+      undefined,
+      "foo",
+      true,
+      100,
+      noop
+    ].forEach(function (options) {
+      it('should fail if options is not an object instance: ' + JSON.stringify(options), function (done) {
+        feature_change(options, function (err) {
+          expect(err).to.exist;
+          expect(err.message).to.be.equal('\'options\' argument is invalid');
+          done();
+        });
+      });
+    });
+  
+    [
+      null,
+      undefined,
+      "foo",
+      true,
+      100,
+      {},
+      []      
+    ].forEach(function (expected) {
+      it('should fail if expected is not a function: ' + JSON.stringify(expected), function (done) {
+        var options = {
+          expected: expected
+        };
+        feature_change(options, function (err) {
+          expect(err).to.exist;
+          expect(err.message).to.be.equal('\'options.expected\' argument must be a function');
+          done();
+        });
+      });
+    });
+
+    [
+      null,
+      undefined,
+      "foo",
+      true,
+      100,
+      {},
+      []      
+    ].forEach(function (actual) {
+      it('should fail if actual is not a function: ' + JSON.stringify(actual), function (done) {
+        var options = {
+          expected: noop,
+          actual: actual
+        };
+        feature_change(options, function (err) {
+          expect(err).to.exist;
+          expect(err.message).to.be.equal('\'options.actual\' argument must be a function');
+          done();
+        });
+      });
+    });
+
+    [
+      null,
+      undefined,
+      "foo",
+      true,
+      100,
+      {},
+      []      
+    ].forEach(function (logAction) {
+      it('should fail if logAction is not a funciton: ' + JSON.stringify(logAction), function (done) {
+        var options = {
+          expected: noop,
+          actual: noop,
+          logAction: logAction
+        };
+        feature_change(options, function (err) {
+          expect(err).to.exist;
+          expect(err.message).to.be.equal('\'options.logAction\' argument must be a function');
+          done();
+        });
+      });
+    });
+
+
+    [
+      "foo",
+      true,
+      100,
+      {},
+      []      
+    ].forEach(function (areEqual) {
+      it('should fail if areEqual is not a function: ' + JSON.stringify(areEqual), function (done) {
+        var options = {
+          expected: noop,
+          actual: noop,
+          logAction: noop,
+          areEqual: areEqual
+        };
+        feature_change(options, function (err) {
+          expect(err).to.exist;
+          expect(err.message).to.be.equal('\'options.areEqual\' argument should be a function');
+          done();
+        });
+      });
+    });
   });
 });
