@@ -31,14 +31,15 @@ feature_change(function(cb){
 
 ## API
 The `feature_change` function takes the following arguments:
-* `expected` - A function that takes a `cb` that performs the operation that results in the expected outcome. Commonly, the current implementation of your feature. 
+* `expected` - A function that takes a `cb` that performs the operation that results in the expected outcome. Commonly, the current implementation of your feature.
   * `cb(err, result)` - Takes `err` as the first parameter if an error occurred, otherwise `result` should be passed.
-* `actual` - A function that takes a `cb` that performs the operation that results in the actual outcome. Commonly, the new implementation of your feature. 
+* `actual` - A function that takes a `cb` that performs the operation that results in the actual outcome. Commonly, the new implementation of your feature.
     * `cb(err, result)` - Takes `err` as the first parameter if an error occurred, otherwise `result` should be passed.
 * `logAction` - A function that takes `expected_result` and `actual_result`. Only invoked if there is an error in `expected` or the results are different.
     * `expected_result` - An object that has an `err` property if an error occurred or a `value` if everything was successful.
     * `actual_result` - An object that has an `err` property if an error occurred or a `value` if everything was successful.
 * `done` - A function to be invoked with the result of the `expected` operation. This is commonly the callback you were using for the original implementation of the feature.
+* `areEqual` - (optional) A function that takes both results and must return a boolean indicating if both results are equal or not. By default the function from module `deep-equal` (https://www.npmjs.com/package/deep-equal) will be used.
 
 ## Implementation details
 The `result` or `err` from the `expected` operation is always the one that is provided in `done`. The goal of this module is not to provide one or the other, but to provide a way to find differences in results.
