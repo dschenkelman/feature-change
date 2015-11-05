@@ -1,6 +1,6 @@
 {
   "name": "feature-change",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Module to run current and new versions of a feature simultaneously. It helps find differences between results without breaking user applications.",
   "main": "index.js",
   "scripts": {
