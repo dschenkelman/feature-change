@@ -135,4 +135,76 @@ describe('feature change', function(){
       expect(result).to.not.exist;
     });
   });
+
+  describe('using a custom areEqual function', function () {
+
+    it('should not invoke log action if expected and actual result are equal', function(done){
+      var expected = function(cb){
+        setImmediate(function(){
+          cb(null, { name: 'a' });
+        });
+      };
+
+      var actual = function(cb){
+        setTimeout(function(){
+          cb(null, { name: 'A' });
+        });
+      };
+
+      var areEqual = function (expected_result, actual_result) {
+        expect(expected_result.name).to.equal('a');
+        expect(actual_result.name).to.equal('A');
+        return true;
+      };
+
+      feature_change(
+        expected,
+        actual,
+        function(){
+          done(new Error('Log action was invoked'));
+        },
+        function (err, result) {
+          expect(err).to.not.exist;
+          expect(result.name).to.equal('a');
+          setTimeout(function(){
+            done();
+          }, 100);
+        },
+        areEqual
+      );
+    });
+
+    it('should invoke log action if results are different', function(done){
+      var expected = function(cb){
+        setImmediate(function(){
+          cb(null, { success: true });
+        });
+      };
+
+      var actual = function(cb){
+        setTimeout(function(){
+          cb(null, { success: true });
+        });
+      };
+
+      var areEqual = function (expected_result, actual_result) {
+        // validates that both results are the same instance
+        expect(expected_result === actual_result).to.be.false;
+        return false;
+      };
+
+      feature_change(expected, actual, function (expected_result, actual_result) {
+        expect(expected_result.value.success).to.be.true;
+        expect(expected_result.err).to.not.exist;
+        expect(actual_result.value.success).to.be.true;
+        expect(actual_result.err).to.not.exist;
+        done();
+      },function (err, result) {
+        expect(err).to.not.exist;
+        expect(result.success).to.be.true;
+      }, areEqual
+      );
+    });
+
+  });
 });
