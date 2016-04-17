@@ -4,6 +4,8 @@ Module to run current and new versions of a feature simultaneously. It helps fin
 
 Once you are sure that there are no more differences you can just remove it.
 
+This [blog post](https://auth0.com/blog/2015/10/27/feature-changes-at-auth0/) explains how it is used at Auth0.
+
 ## Install
 ```
 npm i -S feature-change
